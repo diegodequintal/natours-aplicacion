@@ -1,0 +1,48 @@
+//- Solo el content del overview para despues colocarlo en el base template 
+
+extends base
+
+block content
+    main.main
+        .card-container
+            each el in tours
+                .card
+                    .card__header
+                        .card__picture
+                            .card__picture-overlay &nbsp;
+                            img.card__picture-img(src=`/img/tours/${el.imageCover}`, alt=`${el.name}`)
+                        h3.heading-tertirary
+                         span= el.name
+
+                    .card__details
+                        h4.card__sub-heading= `${el.difficulty} ${el.duration}`
+                        p.card__text= el.summary
+                        .card__data
+                            svg.card__icon
+                              use(xlink:href='/img/icons.svg#icon-map-pin')
+                            span= el.startLocation.description
+                        .card__data
+                            svg.card__icon
+                                use(xlink:href='/img/icons.svg#icon-calendar')
+                            span= el.startDates[0].toLocaleString('en-us', {month: 'long', year: 'numeric'})
+                        .card__data
+                            svg.card__icon
+                                use(xlink:href='/img/icons.svg#icon-flag')
+                            span= `${el.locations.length} stops`
+                        .card__data
+                            svg.card__icon
+                                use(xlink:href='/img/icons.svg#icon-user')
+                            span= `${el.maxGroupSize} people`
+
+                    .card__footer
+                        p
+                            span.card__footer-value= `$${el.price}`
+                            //- Este simbolo lo que hace es colocar un spacio entre estos dos elementos inline
+                            | 
+                            span.card__footer-text per person
+                        p.card__ratings
+                            span.card__footer-value= el.ratingsAverage
+                            |
+                            span.card__footer-text= `rating (${el.ratingsQuantity})`
+                        a.btn.btn--green.btn--small(href=`/tour/${el.slug}`) Details
+//- Escribiendo el url con el / al inicio hace que esa parte se le agreue al url de verdad
